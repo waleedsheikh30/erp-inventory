@@ -1,0 +1,79 @@
+.invoices-container {
+    /* display: flex; */
+    /* justify-content: space-between; */
+    /* width: 100%; */
+    /* margin: 0 auto; */
+    padding: 20px;
+}
+
+.combineInvoice {
+    display: flex;
+    justify-content: space-between;
+}
+
+.loading,
+.error {
+    text-align: center;
+    font-weight: bold;
+}
+
+.invoice-content {
+    display: flex;
+    width: 100%;
+}
+
+.invoice-section {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 10px;
+    background-color: #212631;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    width: 100%;
+}
+
+.invoice-section h2 {
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.invoice-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.invoice-section li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+
+.invoice-id {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.invoice-details {
+    flex: 1;
+}
+
+
+.invoice-section button {
+    background-color: #213547;
+    max-width: 15%;
+    color: aliceblue;
+    transition: 0.2s ease-in-out;
+    font-weight: bold;
+    border-radius: 25px;
+    margin-left: 5px;
+}
+
+.invoice-section button:hover {
+    background-color: aliceblue;
+    color: #212631;
+}

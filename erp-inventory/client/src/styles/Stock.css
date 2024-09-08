@@ -1,0 +1,42 @@
+.stock-container {
+    border-radius: 5px;
+    padding: 15px;
+    margin-left: -30px;
+}
+
+.stock-container h1 {
+    color: #fff;
+    font-size: 3.2rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td {
+    color: #fff;
+
+}
+
+.editForm label {
+    font-weight: bold;
+}
+
+.editForm input {
+    margin-left: 6px;
+}
+

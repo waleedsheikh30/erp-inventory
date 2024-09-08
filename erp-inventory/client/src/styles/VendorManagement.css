@@ -1,0 +1,23 @@
+.main {
+    padding: 10px;
+    height: 100vh;
+}
+
+.main h1 {
+    color: #fff;
+}
+
+button {
+    padding: 5px;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.main .btn1 {
+    margin-left: 10px;
+    margin-top: 5px;
+    padding: 8px;
+
+}
