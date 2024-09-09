@@ -17,10 +17,10 @@ function Invoices() {
         const fetchData = async () => {
             try {
                 const [salesResult, purchaseResult, customersResult, vendorsResult] = await Promise.all([
-                    axios.get(`${apiURL}/invoices?type=sales`),
-                    axios.get(`${apiURL}/invoices?type=purchase`),
-                    axios.get(`${apiURL}/customers`),
-                    axios.get(`${apiURL}/vendors`)
+                    axios.get("https://erp-backend-6ggl.onrender.com/api/invoices?type=sales"),
+                    axios.get("https://erp-backend-6ggl.onrender.com/api/invoices?type=purchase"),
+                    axios.get("https://erp-backend-6ggl.onrender.com/api/customers"),
+                    axios.get("https://erp-backend-6ggl.onrender.com/api/vendors")
                 ]);
 
                 setSalesInvoices(salesResult.data);
@@ -80,7 +80,7 @@ function Invoices() {
     const handleDownload = async (invoiceId) => {
         try {
             const response = await axios({
-                url: `${apiURL}/invoices/download/${invoiceId}`,
+                url: `https://erp-backend-6ggl.onrender.com/api/invoices/download/${invoiceId}`,
                 method: 'GET',
                 responseType: 'blob',
             });
