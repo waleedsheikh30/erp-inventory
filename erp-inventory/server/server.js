@@ -11,7 +11,12 @@ app.use(bodyParser.json());
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', // Allow requests from any origin
+  methods: 'GET,POST,PUT,DELETE,OPTIONS', // Allow specific HTTP methods
+  allowedHeaders: 'Content-Type,Authorization', // Allow specific headers
+  credentials: true // If you need to allow cookies and other credentials
+}));
 app.use(express.json());
 
 // Connect to MongoDB
