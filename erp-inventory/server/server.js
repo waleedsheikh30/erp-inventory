@@ -10,6 +10,8 @@ const app = express();
 app.use(bodyParser.json());
 const port = process.env.PORT || 5000;
 
+app.use(cors());
+
 // Middleware
 app.use(cors({
   origin: '*', // Allow requests from any origin
