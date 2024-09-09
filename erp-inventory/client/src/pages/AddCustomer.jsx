@@ -20,7 +20,7 @@ function AddCustomer() {
     e.preventDefault();
     setLoading(true); // Start loading when the form is submitted
     try {
-      await axios.post(`${apiURL}/api/customers`, customer); // Ensure the base URL matches your server
+      await axios.post(`${apiURL}/customers`, customer); // Ensure the base URL matches your server
       setShowPopup(true);
       setLoading(false); // Stop loading when the popup is shown
       setCustomer({ name: '', accountBalance: 0, mobileNo: '', company: '', cashType: '' });
