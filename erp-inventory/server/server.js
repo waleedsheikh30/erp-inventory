@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'https://erp-inventory.onrender.com', // Set your frontend domain
+  origin: 'https://erp-inventory.onrender.com/api', // Set your frontend domain
 }));
 app.use(express.json());
 
