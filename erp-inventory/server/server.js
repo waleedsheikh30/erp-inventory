@@ -13,12 +13,8 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 
 // Middleware
-app.use(cors({
-  origin: '*', // Allow requests from any origin
-  methods: 'GET,POST,PUT,DELETE,OPTIONS', // Allow specific HTTP methods
-  allowedHeaders: 'Content-Type,Authorization', // Allow specific headers
-  credentials: true // If you need to allow cookies and other credentials
-}));
+app.use(cors({ origin: 'https://erp-inventory-frontend.onrender.com' }));
+
 app.use(express.json());
 
 // Connect to MongoDB
