@@ -34,11 +34,17 @@ function Dashboard() {
           axios.get(`${apiURL}/vendors`)
         ]);
 
-        setSalesInvoices(salesResult.data);
-        setPurchaseInvoices(purchaseResult.data);
-        setProducts(productsResult.data);
-        setCustomers(customersResult.data);
-        setVendors(vendorsResult.data);
+        // console.log('Sales Result:', salesResult.data); // Log the result of sales API
+        // console.log('Purchase Result:', purchaseResult.data);
+        // console.log('Products Result:', productsResult.data);
+        // console.log('Customers Result:', customersResult.data);
+        // console.log('Vendors Result:', vendorsResult.data);
+
+        setSalesInvoices(Array.isArray(salesResult.data) ? salesResult.data : []);
+        setPurchaseInvoices(Array.isArray(purchaseResult.data) ? purchaseResult.data : []);
+        setProducts(Array.isArray(productsResult.data) ? productsResult.data : []);
+        setCustomers(Array.isArray(customersResult.data) ? customersResult.data : []);
+        setVendors(Array.isArray(vendorsResult.data) ? vendorsResult.data : []);
         setLoading(false);
       } catch (err) {
         setError(err);
@@ -114,16 +120,17 @@ function Dashboard() {
   };
 
   const salesData = {
-    labels: salesInvoices.map((invoice, index) => `Invoice ${index + 1}`),
+    labels: Array.isArray(salesInvoices) ? salesInvoices.map((invoice, index) => `Invoice ${index + 1}`) : [],
     datasets: [
       {
         label: 'Sales',
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
-        data: salesInvoices.map(invoice => invoice.totalAmount),
+        data: Array.isArray(salesInvoices) ? salesInvoices.map(invoice => invoice.totalAmount) : [],
       },
     ],
   };
+
 
   const purchaseData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -176,20 +183,20 @@ function Dashboard() {
   const handlePrint = (invoice) => {
     const printWindow = window.open('', '_blank');
 
-    const printContent = `
+    const printContent = 
 <html>
 <head>
     <title>Invoice</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .invoice-container { margin: 0 auto; padding: 20px; max-width: 800px; }
-        .invoice-container h1 { text-align: center; }
-        .invoice-container h3 { margin-top: 30px; }
-        .invoice-table { width: 100%; border-collapse: collapse; }
-        .invoice-table th, .invoice-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .invoice-table th { background-color: #f2f2f2; }
-        .totals { margin-top: 20px; text-align: end; }
-        .totals p { font-size: 18px; }
+        body { "font-family: Arial, sans-serif; padding: 20px;" }
+        .invoice-container { "margin: 0 auto; padding: 20px; max-width: 800px;" }
+        .invoice-container h1 { "text-align: center;" }
+        .invoice-container h3 { "margin-top: 30px;" }
+        .invoice-table { "width: 100%; border-collapse: collapse; "}
+        .invoice-table th, .invoice-table td { "border: 1px solid #ddd; padding: 8px; text-align: left;" }
+        .invoice-table th { "background-color: #f2f2f2;" }
+        .totals { "margin-top: 20px; text-align: end;" }
+        .totals p { "font-size: 18px;" }
     </style>
 </head>
 <body>
@@ -221,7 +228,7 @@ function Dashboard() {
                 </tr>
             </thead>
             <tbody>
-                ${invoice.products.map(product => `
+                ${invoice.products.map(product => 
                     <tr>
                         <td>${product.productName}</td>
                         <td>${product.description}</td>
@@ -229,7 +236,7 @@ function Dashboard() {
                         <td>${product.price}</td>
                         <td>${(product.price * product.quantity)}</td>
                     </tr>
-                `).join('')}
+                ).join('')}
             </tbody>
         </table>
         <div class="totals">
@@ -238,7 +245,7 @@ function Dashboard() {
         </div>
     </div>
 </body>
-</html>`;
+</html>;
 
     printWindow.document.write(printContent);
     printWindow.document.close();

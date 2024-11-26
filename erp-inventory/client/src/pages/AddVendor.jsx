@@ -100,11 +100,13 @@ function AddVendor() {
         </button>
         {showPopup && (
           <div className="popup">
-            <h1 style={{ color: 'green', fontSize: '35px' }}>✔ SUCCESS</h1>
-            <p>Vendor Added Successfully. Do you want to add another vendor?</p>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <button onClick={() => handlePopupResponse(true)}>Yes</button>
-              <button onClick={() => handlePopupResponse(false)}>No</button>
+            <div className='popup-content'>
+              <h1 style={{ color: 'green', fontSize: '35px' }}>✔ SUCCESS</h1>
+              <p>Vendor Added Successfully. Do you want to add another vendor?</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <button onClick={() => handlePopupResponse(true)}>Yes</button>
+                <button onClick={() => handlePopupResponse(false)}>No</button>
+              </div>
             </div>
           </div>
         )}

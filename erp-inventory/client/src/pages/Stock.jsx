@@ -25,6 +25,7 @@ function Stock() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${apiURL}/products`);
+        console.log('API Response:', response); // Log response for debugging
         setProducts(response.data);
         setLoading(false);
       } catch (err) {

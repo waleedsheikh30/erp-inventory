@@ -32,6 +32,8 @@ const customersRoute = require('./routes/customers');
 const productsRoute = require('./routes/products');
 const vendorRoute = require('./routes/vendorRoutes');
 const paymentRoutes = require('./routes/payment');
+const invoices = require('./routes/invoiceRoutes')
+app.use('/api/invoices', invoices);
 app.use('/api/customers', customersRoute);
 app.use('/api/products', productsRoute);
 app.use('/api/vendors', vendorRoute);

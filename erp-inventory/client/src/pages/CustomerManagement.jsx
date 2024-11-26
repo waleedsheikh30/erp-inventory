@@ -45,6 +45,7 @@ function CustomerManagement() {
   const [newName, setNewName] = useState('');
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showMsgPopup, setShowMsgPopup] = useState(false);
 
 
   useEffect(() => {
@@ -84,8 +85,8 @@ function CustomerManagement() {
   const handleEditCustomer = (customer) => {
     setSelectedCustomer(customer);
     setNewName(customer.name);
-    setShowEditPopup(true); 
-    setIsEditing(true); 
+    setShowEditPopup(true);
+    setIsEditing(true);
 
   };
 
@@ -98,9 +99,9 @@ function CustomerManagement() {
         setCustomers((prevCustomers) =>
           prevCustomers.map((customer) => (customer._id === selectedCustomer._id ? updatedCustomer.data : customer))
         );
-        setShowEditPopup(false); 
+        setShowEditPopup(false);
         setSelectedCustomer(null);
-        setIsEditing(false); 
+        setIsEditing(false);
       } catch (err) {
         setError(err);
       }
@@ -150,9 +151,23 @@ function CustomerManagement() {
               <td style={tableDataStyles}>{customer.totalPaid}</td>
               <td style={tableDataStyles}>{customer.remaining}</td>
               <td style={tableDataStyles}>{customer.status}</td>
-              <FaEdit style={iconStyles} onClick={() => handleEditCustomer(customer)} />
-              <FaTrashAlt style={{ ...iconStyles, color: 'red' }} onClick={() => confirmDelete(customer)} />
-              <button className='btn1' style={{ width: '40%' }} onClick={() => setSelectedCustomer(customer)}>Pay</button>
+              <td style={{ border: "none" }}>
+                <FaEdit style={iconStyles} onClick={() => handleEditCustomer(customer)} />
+                <FaTrashAlt style={{ ...iconStyles, color: 'red' }} onClick={() => confirmDelete(customer)} />
+                <button
+                  className='btn1'
+                  style={{ width: '40%' }}
+                  onClick={() => {
+                    if (customer.remaining === 0) {
+                      setShowMsgPopup('Remaining amount is zero. No further payment can be made.');
+                    } else {
+                      setSelectedCustomer(customer);
+                    }
+                  }}
+                >
+                  Pay
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -165,29 +180,42 @@ function CustomerManagement() {
 
       {showPopup && (
         <div className="popup">
-          <h1 style={{ color: 'red', fontSize: '35px' }}>!!Alert</h1>
+          <div className="popup-content">
+          <h1 style={{ color: 'red', fontSize: '35px' }} >!!Alert</h1>
           <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'sans-serif' }}>Are you sure you want to delete this customer?</p>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <button onClick={handleDeleteCustomer}>Yes</button>
             <button onClick={cancelDelete}>No</button>
+          </div>
           </div>
         </div>
       )}
 
       {showEditPopup && (
         <div className="popup">
-          <div className="editPopup-content">
-            <h3>Edit Customer Name</h3>
+          <div className="popup-content">
+            <h3 style={{ color: "black" }}>Edit Customer Name</h3>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Enter new name"
+              style={{ marginTop: "20px", border: "1px solid" }}
             />
             <div className="popup-buttons">
               <button onClick={handleSaveEdit}>Save</button>
               <button onClick={handleCancelEdit}>Cancel</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showMsgPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <h3 style={{ textAlign: "center", color: "red", fontSize: "30px" }}>Payment Not Allowed!!!</h3>
+            <p>{showMsgPopup}</p>
+            <button onClick={() => setShowMsgPopup(null)} style={{ marginLeft: "0px" }}>Close</button>
           </div>
         </div>
       )}

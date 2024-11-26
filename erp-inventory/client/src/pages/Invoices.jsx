@@ -15,28 +15,37 @@ function Invoices() {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const [salesResult, purchaseResult, customersResult, vendorsResult] = await Promise.all([
-                    axios.get(`${apiURL}/invoices?type=sales`),
-                    axios.get(`${apiURL}/invoices?type=purchase`),
-                    axios.get(`${apiURL}/customers`),
-                    axios.get(`${apiURL}/vendors`)
-                ]);
-
-                setSalesInvoices(salesResult.data);
-                setPurchaseInvoices(purchaseResult.data);
-                setCustomers(customersResult.data);
-                setVendors(vendorsResult.data);
-                setLoading(false);
-            } catch (err) {
-                setError(err);
-                setLoading(false);
-            }
+          try {
+            // Fetch each endpoint sequentially
+            const salesResponse = await fetch(`${apiURL}/invoices?type=sales`);
+            const salesResult = await salesResponse.json();
+            console.log('Sales Result:', salesResult);
+            setSalesInvoices(salesResult);
+      
+            const purchaseResponse = await fetch(`${apiURL}/invoices?type=purchase`);
+            const purchaseResult = await purchaseResponse.json();
+            setPurchaseInvoices(purchaseResult);
+      
+            const customersResponse = await fetch(`${apiURL}/customers`);
+            const customersResult = await customersResponse.json();
+            setCustomers(customersResult);
+      
+            const vendorsResponse = await fetch(`${apiURL}/vendors`);
+            const vendorsResult = await vendorsResponse.json();
+            setVendors(vendorsResult);
+      
+            setLoading(false);
+          } catch (err) {
+            console.error('Fetch Error:', err);
+            setError(err);
+            setLoading(false);
+          }
         };
-
+      
         fetchData();
-    }, []);
+      }, []);
 
+      
     const getCustomerName = (customerId) => {
         const customer = customers.find(c => c._id === customerId);
         return customer ? `${customer.name}` : 'Unknown Customer';
@@ -162,7 +171,7 @@ function Invoices() {
             </div>
         </div>
     </body>
-    </html>`;
+    </html>`
 
         printWindow.document.write(printContent);
         printWindow.document.close();
@@ -194,8 +203,6 @@ function Invoices() {
                                     </li>
                                 ))}
                         </ul>
-
-                        {/* Status: {invoice.paid ? 'Paid' : 'Pending'} */}
                     </div>
                     <div className="invoice-section invoice-section-right">
                         <h2>Purchase Invoices</h2>

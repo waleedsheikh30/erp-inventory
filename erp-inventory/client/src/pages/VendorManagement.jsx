@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import VendorPayment from './VendorPayment'; 
+import VendorPayment from './VendorPayment';
 import '../styles/VendorManagement.css';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 
@@ -43,6 +43,8 @@ function VendorManagement() {
   const [newName, setNewName] = useState('');
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showMsgPopup, setShowMsgPopup] = useState(false);
+
 
   useEffect(() => {
     const fetchVendors = async () => {
@@ -125,7 +127,7 @@ function VendorManagement() {
   if (error) return <div className='loading'>Error: {error.message}</div>;
 
   return (
-    <div className='main'>
+    <div className='main {popupMessage ? "blurred" : ""}'>
       <h1>Vendor Management</h1>
       <table style={tableStyles}>
         <thead>
@@ -147,9 +149,19 @@ function VendorManagement() {
               <td style={tableDataStyles}>{vendor.totalPaid}</td>
               <td style={tableDataStyles}>{vendor.remaining}</td>
               <td style={tableDataStyles}>{vendor.status}</td>
-              <FaEdit style={iconStyles} onClick={() => handleEditVendor(vendor)} />
-              <FaTrashAlt style={{ ...iconStyles, color: 'red' }} onClick={() => confirmDelete(vendor)} />
-              <button className='btn1' style={{ width: '40%' }} onClick={() => setSelectedVendor(vendor)}>Pay</button>            </tr>
+              <td style={{ border: "none" }}>
+                <FaEdit style={iconStyles} onClick={() => handleEditVendor(vendor)} />
+                <FaTrashAlt style={{ ...iconStyles, color: 'red' }} onClick={() => confirmDelete(vendor)} />
+                <button className='btn1' style={{ width: '40%' }} onClick={() => {
+                  if (vendor.remaining === 0) {
+                    setShowMsgPopup('Remaining amount is zero. No further payment can be made.');
+                  } else {
+                    setSelectedVendor(vendor);
+                  }
+                }}>Pay</button>
+              </td>
+            </tr>
+
           ))}
         </tbody>
       </table>
@@ -160,29 +172,42 @@ function VendorManagement() {
 
       {showPopup && (
         <div className="popup">
-          <h1 style={{ color: 'red', fontSize: '35px' }}>!!Alert</h1>
-          <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'sans-serif' }}>Are you sure you want to delete this vendor?</p>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <button onClick={handleDeleteVendor}>Yes</button>
-            <button onClick={cancelDelete}>No</button>
+          <div className='popup-content'>
+            <h1 style={{ color: 'red', fontSize: '35px' }}>!!Alert</h1>
+            <p style={{ fontSize: '20px', fontWeight: 'bold', fontFamily: 'sans-serif' }}>Are you sure you want to delete this vendor?</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <button onClick={handleDeleteVendor}>Yes</button>
+              <button onClick={cancelDelete}>No</button>
+            </div>
           </div>
         </div>
       )}
 
       {showEditPopup && (
         <div className="popup">
-          <div className="editPopup-content">
-            <h3>Edit Vendor Name</h3>
+          <div className="popup-content">
+            <h3 style={{ color: "black" }}>Edit Vendor Name</h3>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="Enter new name"
+              style={{ marginTop: "20px", border: "1px solid" }}
             />
             <div className="popup-buttons">
               <button onClick={handleSaveEdit}>Save</button>
               <button onClick={handleCancelEdit}>Cancel</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showMsgPopup && (
+        <div className="popup">
+          <div className="popup-content">
+            <h3 style={{ textAlign: "center", color: "red", fontSize: "30px" }}>Payment Not Allowed!!!</h3>
+            <p>{showMsgPopup}</p>
+            <button onClick={() => setShowMsgPopup(null)} style={{ marginLeft: "0px" }}>Close</button>
           </div>
         </div>
       )}
